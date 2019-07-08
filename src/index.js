@@ -1,8 +1,21 @@
-//this is the applications entry point
-import  './index.css';
-import numeral from 'numeral'; //used for formating numbers
+import {getUsers} from './api/userApi';
 
-const courseValue = numeral(1000).format('$0,0.00');
-console.log(`i would pay ${courseValue} for this awesome course!`); //eslint-disable-line  no-console
- // backticks mean js should pass variable place holders
+// Populate table of users via API call.
+getUsers().then(result => {
+  let usersBody = "";
 
+  result.forEach(user => {
+    usersBody+= `<tr>
+      <td><a href="#" data-id="${user.id}" class="deleteUser">Delete</a></td>
+      <td>${user.id}</td>
+      <td>${user.firstName}</td>
+      <td>${user.lastName}</td>
+      <td>${user.email}</td>
+      </tr>`
+  });
+
+  global.document.getElementById('users').innerHTML = usersBody;
+
+
+
+});
